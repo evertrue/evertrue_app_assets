@@ -1,0 +1,17 @@
+AllCops:
+  Excludes:
+    - vendor/**
+    - bin/**
+    - spec/**
+
+SpaceInsideBrackets:
+  Enabled: false
+
+LineLength:
+  Max: 140
+
+MethodLength:
+  Max: 30
+
+Documentation:
+  Enabled: false
