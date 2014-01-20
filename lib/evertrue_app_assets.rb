@@ -21,6 +21,18 @@ class EvertrueAppAssets
     end
   end
 
+  def self.get_premium_status(oid)
+    uri       = URI.parse("https://api.evertrue.com/1.0/global/product&access_key=46ac686ed6b55f1fd347b8138a0f357f&status=(live)")
+    request   = Net::HTTP.get(uri)
+    code      = YAML.load(request)['meta']['code']
+    response  = YAML.load(request)['response']['data']
+
+    if code == 200
+      premium = response.any? { |app| (app['oid'] == oid) && (app['type'] == 'COMMUNITY') && (app['is_premium'] == "1")}
+    end
+    return premium
+  end
+
   private
 
   def self.get_ios_download_link(oid)
