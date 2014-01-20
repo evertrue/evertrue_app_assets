@@ -43,15 +43,20 @@ class EvertrueAppAssets
   end
 
   def self.find_app_by_oid(oid)
+    # Find bundle_id in DNA
     bundle_id = get_bundle_id(oid)
 
+    # Use bundle_id to lookup app in iTunes
     if bundle_id
       app = ITunesSearchAPI.lookup(bundleId: bundle_id)
-    else
-      app = search_for_app_by_oid(oid)
     end
 
-    app
+    # Return if we found the app, otherwise search iTunes by oid
+    if app
+      return app
+    else
+      return search_for_app_by_oid(oid)
+    end
   end
 
   # Find app without knowing its bundleId
