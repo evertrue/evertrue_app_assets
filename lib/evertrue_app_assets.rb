@@ -33,6 +33,15 @@ class EvertrueAppAssets
     return premium
   end
 
+  def self.get_ios_id(oid)
+    app = find_app_by_oid(oid)
+    if app && !app.empty?
+      app['trackId']
+    else
+      nil
+    end
+  end
+
   private
 
   def self.get_ios_download_link(oid)
