@@ -37,8 +37,10 @@ class EvertrueAppAssets
 
   def self.get_ios_id(oid)
     app = find_app_by_oid(oid)
-    if app && !app.empty?
-      app['trackId']
+    if app && !app.empty? && app.size == 1
+      app[0]['trackId']
+    elsif app && !app.empty?
+      app[0]['trackId']
     else
       nil
     end
