@@ -15,7 +15,7 @@ class EvertrueAppAssets
   def self.get_ios_screenshots(oid)
     app = find_app_by_oid(oid)
 
-    if app && !app.empty?
+    if app && (app.size == 1)
       app['screenshotUrls']
     else
       nil
