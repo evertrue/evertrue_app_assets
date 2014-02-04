@@ -11,5 +11,4 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'itunes-search-api', '~> 0'
   s.add_dependency 'httparty', '~> 0.10', '>= 0.10.0'
-  s.add_dependency 'evertrue-ruby'
 end
