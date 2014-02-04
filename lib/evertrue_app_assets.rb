@@ -1,8 +1,14 @@
 require 'evertrue'
 require 'itunes-search-api'
 require 'net/http'
+require 'memoist'
 
 class EvertrueAppAssets
+  extend Memoist
+
+  def app(oid)
+    @app || find_app_by_oid(oid)
+  end
 
   def self.get_download_link(oid, platform)
     if platform.to_s == 'ios'
@@ -13,8 +19,6 @@ class EvertrueAppAssets
   end
 
   def self.get_ios_screenshots(oid)
-    app = find_app_by_oid(oid)
-
     if app && (app.size == 1)
       app['screenshotUrls']
     else
@@ -36,7 +40,6 @@ class EvertrueAppAssets
   end
 
   def self.get_ios_id(oid)
-    app = find_app_by_oid(oid)
     if app && !app.empty? && app.size == 1
       app[0]['trackId']
     elsif app && !app.empty?
@@ -47,8 +50,6 @@ class EvertrueAppAssets
   end
 
   def self.get_ios_download_link(oid)
-    app = find_app_by_oid(oid)
-
     if app && !app.empty?
       app['trackViewUrl']
     else
@@ -58,12 +59,6 @@ class EvertrueAppAssets
 
   def self.get_bundle_id(oid)
     EverTrue.legacy_api.dna(oid, 'ET.App.Ios.BundleId')
-    # uri = URI.parse("https://api.evertrue.com/1.0/#{oid}/dna/ET.App.Ios.BundleId")
-    # request = Net::HTTP.get(uri)
-    # response = YAML.load(request)['response'] if request
-    # bundle_id = response['data'] if response
-
-    # bundle_id
   end
 
   def self.find_app_by_oid(oid)
@@ -72,14 +67,15 @@ class EvertrueAppAssets
 
     # Use bundle_id to lookup app in iTunes
     if bundle_id
-      app = ITunesSearchAPI.lookup(bundleId: bundle_id)
+      @app = ITunesSearchAPI.lookup(bundleId: bundle_id)
     end
 
     # Return if we found the app, otherwise search iTunes by oid
-    if app
-      return app
+    if @app
+      return @app
     else
-      return search_for_app_by_oid(oid)
+      @app = search_for_app_by_oid(oid)
+      return @app
     end
   end
 
