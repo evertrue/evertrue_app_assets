@@ -1,3 +1,4 @@
+require 'evertrue'
 require 'itunes-search-api'
 require 'net/http'
 
@@ -30,6 +31,7 @@ class EvertrueAppAssets
     if code == 200
       premium = response.any? { |app| (app['oid'] == oid) && (app['type'] == 'COMMUNITY') && (app['is_premium'] == "1")}
     end
+
     return premium
   end
 
@@ -42,8 +44,6 @@ class EvertrueAppAssets
     end
   end
 
-  private
-
   def self.get_ios_download_link(oid)
     app = find_app_by_oid(oid)
 
@@ -55,12 +55,13 @@ class EvertrueAppAssets
   end
 
   def self.get_bundle_id(oid)
-    uri = URI.parse("https://api.evertrue.com/1.0/#{oid}/dna/ET.App.Ios.BundleId")
-    request = Net::HTTP.get(uri)
-    response = YAML.load(request)['response'] if request
-    bundle_id = response['data'] if response
+    EverTrue.legacy_api.dna(oid, 'ET.App.Ios.BundleId')
+    # uri = URI.parse("https://api.evertrue.com/1.0/#{oid}/dna/ET.App.Ios.BundleId")
+    # request = Net::HTTP.get(uri)
+    # response = YAML.load(request)['response'] if request
+    # bundle_id = response['data'] if response
 
-    bundle_id
+    # bundle_id
   end
 
   def self.find_app_by_oid(oid)
@@ -85,12 +86,12 @@ class EvertrueAppAssets
     results = ITunesSearchAPI.search(term: oid, media: 'software')
 
     if results && (results.size == 1)
-      results
+      return results[0]
     elsif results && !results.empty?
       # Find result with bundleId containing 'evertrue'
-      results.select { |res| (res['bundleId'] =~ /evertrue/) }
+      return results.select { |res| (res['bundleId'] =~ /evertrue/) }
     else
-      nil
+      return nil
     end
   end
 end
