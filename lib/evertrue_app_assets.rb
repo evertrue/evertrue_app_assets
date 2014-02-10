@@ -30,7 +30,7 @@ class EvertrueAppAssets
     response  = YAML.load(request)['response']['data']
 
     if code == 200
-      premium = response.any? { |app| (app['oid'] == oid) && (app['type'] == 'COMMUNITY') && (app(oid)['is_premium'] == "1")}
+      premium = response.any? { |app| (app['oid'] == oid) && (app['type'] == 'COMMUNITY') && (app['is_premium'] == "1")}
     end
 
     return premium
@@ -48,7 +48,7 @@ class EvertrueAppAssets
 
   def self.get_ios_download_link(oid)
     if app(oid) && !app(oid).empty?
-      app['trackViewUrl']
+      app(oid)['trackViewUrl']
     else
       nil
     end
