@@ -1,11 +1,8 @@
 require 'evertrue'
 require 'itunes-search-api'
 require 'net/http'
-require 'memoist'
 
 class EvertrueAppAssets
-  extend Memoist
-
   def app(oid)
     @app || find_app_by_oid(oid)
   end
