@@ -1,10 +1,10 @@
-require 'evertrue'
+#require 'evertrue'
 require 'itunes-search-api'
 require 'net/http'
 
 class EvertrueAppAssets
   def app(oid)
-    @app || find_app_by_oid(oid)
+    @app = @app || find_app_by_oid(oid)
   end
 
   def self.get_download_link(oid, platform)
@@ -16,8 +16,9 @@ class EvertrueAppAssets
   end
 
   def self.get_ios_screenshots(oid)
-    if app(oid) && (app(oid).size == 1)
-      app(oid)['screenshotUrls']
+    app = app(oid)
+    if app && (app.size == 1)
+      app['screenshotUrls']
     else
       nil
     end
