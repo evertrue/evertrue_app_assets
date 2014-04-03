@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'evertrue_app_assets'
-  s.version     = '0.0.1.alpha'
+  s.version     = '1.0.0'
   s.licenses    = ['MIT']
   s.summary     = 'EverTrue Assets from iTunes API'
   s.description = 'Searches the iTunes API for EverTrue assets'
