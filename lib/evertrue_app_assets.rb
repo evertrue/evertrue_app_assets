@@ -4,7 +4,7 @@ require 'net/http'
 
 class EvertrueAppAssets
   def app(oid)
-    @app = @app || find_app_by_oid(oid)
+    @app ||= find_app_by_oid(oid)
   end
 
   def self.get_download_link(oid, platform)
