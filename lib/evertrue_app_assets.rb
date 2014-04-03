@@ -34,7 +34,7 @@ class EvertrueAppAssets
       premium = response.any? { |app| (app['oid'] == oid) && (app['type'] == 'COMMUNITY') && (app['is_premium'] == '1') }
     end
 
-    return premium
+    premium
   end
 
   def self.get_ios_id(oid)
