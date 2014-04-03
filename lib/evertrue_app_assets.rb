@@ -64,9 +64,7 @@ class EvertrueAppAssets
     bundle_id = get_bundle_id(oid)
 
     # Use bundle_id to lookup app(oid) in iTunes
-    if bundle_id
-      @app = ITunesSearchAPI.lookup(bundleId: bundle_id)
-    end
+    @app = ITunesSearchAPI.lookup(bundleId: bundle_id) if bundle_id
 
     # Return if we found the app(oid), otherwise search iTunes by oid
     if @app
